@@ -12,7 +12,7 @@ class Cat {
          this.alt
       }" class="cat-image"/>
                <div class="clicked">
-                  <p>Number of times you've clicked the cat picture</p>
+                  <p>Number of times you've clicked ${this.name}'s picture</p>
                   <p class="cat-counter">${this.timesClicked}</p>
                </div>`;
    }
@@ -58,7 +58,7 @@ class List {
          .addEventListener("click", this.loadItem);
    }
 
-   loadItem() {
+   loadItem(event) {
       const itemName = event.target.textContent;
       const item = allCats.find(cat => cat.name === `${itemName}`);
       item.appendSection();
