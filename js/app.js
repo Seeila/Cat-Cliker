@@ -43,6 +43,7 @@
       init: function(){
          catListView.init();
          catView.init();
+         pannelView.init();
       },
 
       loadItem: function(event) {
@@ -56,10 +57,24 @@
          const item = model.cats.find(cat => cat.imgSrc === `${itemSrc}`);
          item.timesClicked += 1;
          document.querySelector(`.cat-counter`).textContent = item.timesClicked;
+         pannelView.clicksInput.value = catView.catCounter.textContent;
       },
 
       getAllCats: function(){
          return model.cats;
+      },
+
+      adminPannelHidden: true,
+
+      submitValues: function() {
+         const item = model.cats.find(cat => cat.name === `${pannelView.currentCatName}`);
+         item.imgSrc = pannelView.urlInput.value;
+         item.alt = '';
+         item.name = pannelView.nameInput.value;
+         item.timesClicked = pannelView.clicksInput.value;
+         catView.render(item);
+         catListView.changeListItem(item.name);
+         pannelView.togglePannel();
       }
 
    };
@@ -85,6 +100,12 @@
          listSelection.append(newItem);
       },
 
+      changeListItem: function(name){
+         const listItems= document.querySelectorAll('#cats-list li');
+         listItems.forEach(item => {
+            if(item.innerText === `${pannelView.currentCatName}`) item.innerText = name
+         });
+      }
    }
 
    const catView = {
@@ -101,6 +122,37 @@
          this.catImg.alt = item.alt;
          this.catName.textContent = item.name;
          this.catCounter.textContent = item.timesClicked;
+      }
+   }
+
+   const pannelView = {
+      init: function() {
+         this.adminBtn = document.querySelector('.btn.admin');
+         this.cancelBtn = document.querySelector('.btn.reset');
+         this.submitBtn = document.querySelector('.btn.submit');
+         this.form = document.querySelector('.cat-form');
+         this.nameInput = document.querySelector('input[type=text]');
+         this.urlInput = document.querySelector('input[type=url]');
+         this.clicksInput= document.querySelector('input[type=number]');
+         this.currentCatName = catView.catName.textContent;
+
+         this.adminBtn.addEventListener("click", this.togglePannel);
+         this.cancelBtn.addEventListener("click", this.togglePannel);
+         this.submitBtn.addEventListener("click", octopus.submitValues);
+      },
+
+      togglePannel: function() {
+         pannelView.form.classList.toggle('hidden');
+         if(octopus.adminPannelHidden) {
+            octopus.adminPannelHidden = false;
+
+            pannelView.nameInput.value = pannelView.currentCatName;
+            pannelView.urlInput.value = catView.catImg.src;
+            pannelView.clicksInput.value = catView.catCounter.textContent;
+
+         } else {
+            octopus.adminPannelHidden = true;
+         }
       }
    }
 

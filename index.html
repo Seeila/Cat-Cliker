@@ -22,8 +22,20 @@
          <div class="clicked">
             <p>Number of times you've clicked <span class="cat-name"></span>'s picture</p>
             <p class="cat-counter"></p>
-         </div>`
+         </div>
       </main>
+      <section class="cat-pannel">
+         <button class="btn admin">Admin</button>
+         <div class="cat-form hidden">
+            <form >
+               <label>Cat's Name<input type="text"  name="name" value="" /></label>
+               <label>Cat's Photo link<input type="url"  name="url" value="" /></label>
+               <label>Number of clicks<input type="number"  name="clicks" value="" /></label>
+            </form>
+            <button class="btn reset">Cancel</button>
+            <button class="btn submit">Submit</button>
+         </div>
+      </section>
 
    </div>
    <script src="js/app.js" charset="utf-8"></script>
